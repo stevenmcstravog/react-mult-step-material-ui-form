@@ -51,14 +51,14 @@ const styles = theme => ({
 
 const steps = ["Account", "Social", "Personal"];
 
-function getStepContent(step) {
+function getStepContent(step, values, handleChange) {
 	switch (step) {
 		case 0:
-			return <AccountForm />;
+			return <AccountForm values={values} handleChange={handleChange} />;
 		case 1:
-			return <SocialForm />;
+			return <SocialForm values={values} handleChange={handleChange} />;
 		case 2:
-			return <PersonalDetailsForm />;
+			return <PersonalDetailsForm values={values} handleChange={handleChange} />;
 		default:
 			throw new Error("Unknown step");
 	}
@@ -66,7 +66,20 @@ function getStepContent(step) {
 
 class Form extends React.Component {
 	state = {
-		activeStep: 0
+		activeStep: 0,
+		email: "",
+		password: "",
+		facebook: "",
+		twitter: "",
+		linkedIn: "",
+		firstName: "",
+		lastName: "",
+		address1: "",
+		address2: "",
+		city: "",
+		state: "",
+		zip: "",
+		country: ""
 	};
 
 	handleNext = () => {
@@ -81,15 +94,15 @@ class Form extends React.Component {
 		}));
 	};
 
-	handleReset = () => {
-		this.setState({
-			activeStep: 0
-		});
+	handleChange = input => e => {
+		this.setState({ [input]: e.target.value });
 	};
 
 	render() {
 		const { classes } = this.props;
 		const { activeStep } = this.state;
+		const { email, password, facebook, twitter, linkedIn, firstName, lastName, address1, address2, city, state, zip, country } = this.state;
+		const values = { email, password, facebook, twitter, linkedIn, firstName, lastName, address1, address2, city, state, zip, country };
 
 		return (
 			<React.Fragment>
@@ -124,7 +137,7 @@ class Form extends React.Component {
 							</React.Fragment>
 						) : (
 							<React.Fragment>
-								{getStepContent(activeStep)}
+								{getStepContent(activeStep, values, this.handleChange)}
 								<div className={classes.buttons}>
 									{activeStep !== 0 && (
 										<Button
