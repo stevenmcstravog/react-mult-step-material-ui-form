@@ -1,6 +1,6 @@
 ## Setup
 
-npm install (takes a while)
+`npm install` (takes a while)
 
 ## Available Scripts
 
